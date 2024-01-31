@@ -126,21 +126,25 @@ export async function getCurrentUser(): Promise<IUser | null> {
     }
 }
 
-export async function allbusinesses() {
+export async function getBusinessesByAccountId(accountId: string) {
     try {
-        const businesses = await databases.listDocuments(
+        const query = `accountId=${accountId}`;
+
+        const result = await databases.listDocuments(
             appwriteConfig.databaseID,
             appwriteConfig.businessCollection,
+            [query]
         );
 
-        if (!businesses) return null;
+        if (!result.documents || result.documents.length === 0) return null;
+        return result.documents;
 
-        return businesses;
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching business data:", error);
         return null;
     }
 }
+
 
 export async function signOutAccount() {
     try {
@@ -150,4 +154,6 @@ export async function signOutAccount() {
         return null;
     }
 }
+
+
 
