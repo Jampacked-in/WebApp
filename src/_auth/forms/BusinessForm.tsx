@@ -24,6 +24,7 @@ const BusinessForm = () => {
 
     const signupData = location.state as z.infer<typeof SignupValidation>;
     const accountId = uuidv4();
+    const businessId = uuidv4();
     const form = useForm<z.infer<typeof BusinessValidation>>({
         resolver: zodResolver(BusinessValidation),
         defaultValues: {
@@ -36,6 +37,7 @@ const BusinessForm = () => {
     
         const combinedData = {
             accountId,
+            businessId,
             ...signupData,
             ...businessValues
         }
