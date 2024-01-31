@@ -21,6 +21,17 @@ export async function createUserAccount(user: INewUser) {
             location: user.location,
         });
 
+        if (!newUser) return Error('User not created');
+
+        const newBusiness = await saveBusinessToDB({
+            accountId: newAccount.$id,
+            businessId: user.businessId,
+            businessname: user.businessname,
+            location: user.location,
+        });
+
+        if (!newBusiness) return Error('Business not created');
+
         return newUser;
     } catch (error) {
         console.log(error);
@@ -48,6 +59,28 @@ export async function saveUserToDB(user: {
     } catch (error) {
         console.log(error);
         return error;
+    }
+}
+
+export async function saveBusinessToDB(user: {
+    accountId:string;
+    businessId: string;
+    businessname:string;
+    location:string;
+}) {
+    try {
+        const newBusiness = await databases.createDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.businessCollection,
+            ID.unique(),
+            user,
+        )
+
+        return newBusiness;
+
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 }
 
@@ -92,3 +125,29 @@ export async function getCurrentUser(): Promise<IUser | null> {
         return null;
     }
 }
+
+export async function allbusinesses() {
+    try {
+        const businesses = await databases.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.businessCollection,
+        );
+
+        if (!businesses) return null;
+
+        return businesses;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export async function signOutAccount() {
+    try {
+        await account.deleteSession('current');
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
