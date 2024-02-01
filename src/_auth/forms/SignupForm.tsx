@@ -11,7 +11,7 @@ import { z } from "zod"
 
 // import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 // const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
-
+let isSignUpComplete = false;
 const SignupForm = () => {
     const isLoading = false;
     const navigate = useNavigate();
@@ -26,6 +26,7 @@ const SignupForm = () => {
 
     async function onSubmit(values: z.infer<typeof SignupValidation>) {
         console.log(values);
+        isSignUpComplete = true;
         navigate('/business-details',{state:{...values}});
     }
 
@@ -118,7 +119,7 @@ const SignupForm = () => {
         </Form>
     )
 }
-
+export {isSignUpComplete}
 export default SignupForm
 
 
