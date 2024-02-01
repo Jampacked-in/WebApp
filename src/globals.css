@@ -219,7 +219,7 @@
 
   /* Left sidebar */
   .leftsidebar {
-    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2;
+    @apply px-6 py-10 md:h-full w-full h-20 flex-col justify-between md:w-[250px] bg-light-1 border border-dark-1;
   }
 
   .leftsidebar-link {
@@ -237,7 +237,7 @@
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+    @apply sticky top-0 z-50 bg-light-1 w-full h-18 border border-dark-1;
   }
 
   /* User card */
@@ -270,6 +270,7 @@
     @apply bg-orange hover:bg-white text-light-1 hover:text-dark-1 hover:border-2 hover:border-dark-1 flex gap-2 !important;
   }
 
+
   /* .shad-button_swiggy {
     @apply bg-white text-swiggy font-bold py-2 px-4 rounded shadow-lg m-2 ;
   }
@@ -283,7 +284,7 @@
   }
 
   .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-light hover:text-white !important;
+    @apply flex gap-4 items-center justify-start border border-r-2 border-dark-1 hover:bg-orange hover:text-white !important;
   }
 
   .shad-button_google{

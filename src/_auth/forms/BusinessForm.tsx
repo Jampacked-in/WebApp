@@ -12,6 +12,7 @@ import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/querie
 import { useUserContext } from "@/context/AuthContext"
 import { v4 as uuidv4 } from 'uuid';
 
+let isBusinessDetailsComplete = false;
 const BusinessForm = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -66,6 +67,7 @@ const BusinessForm = () => {
 
             if(isLoggedIn){
                 form.reset();
+                isBusinessDetailsComplete = true;
                 navigate('/swiggy-zomato');
             } else {
                 toast({
@@ -140,4 +142,5 @@ const BusinessForm = () => {
     )
 }
 
+export {isBusinessDetailsComplete}
 export default BusinessForm

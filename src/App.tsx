@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Home } from './_root/pages';
 import { Toaster } from '@/components/ui/toaster';
-import { useUserContext } from './context/AuthContext';
 import './globals.css';
 import SigninForm from './_auth/forms/SigninForm';
 import SignupForm from './_auth/forms/SignupForm';
@@ -9,18 +8,15 @@ import BusinessForm from './_auth/forms/BusinessForm';
 import SwiggyZomato from './_auth/forms/SwiggyZomato';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
+import { isSignUpComplete } from './_auth/forms/SignupForm';
 // import LandingPage from './_landing/LandingPage';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useUserContext();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/sign-up" replace />;
+  if (!isSignUpComplete) {
+    return <Navigate to="/sign-in" replace />;
   }
-
   return children;
 };
-
 
 const App = () => {
 
