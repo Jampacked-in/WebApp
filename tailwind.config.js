@@ -51,6 +51,11 @@ module.exports = {
         '465': '465px',
         '30': '30px',
       },
+      height: {
+        '420': '420px',
+        '465': '465px',
+        '18': '5.2rem',
+      },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
 
