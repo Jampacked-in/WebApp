@@ -1,12 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 const SwiggyZomato = () => {
   
-  // Define the onClick handler functions
+  const navigate = useNavigate();
+
   const handleSwiggyClick = () => {
     alert('Integrate with Swiggy button clicked');
   };
 
   const handleZomatoClick = () => {
-    alert('Integrate with Zomato button clicked');
+    navigate('/message')
   };
 
   return (

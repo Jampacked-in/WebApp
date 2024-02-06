@@ -9,6 +9,7 @@ import SwiggyZomato from './_auth/forms/SwiggyZomato';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
 import { isSignUpComplete } from './_auth/forms/SignupForm';
+import MessagePage from './_auth/forms/MessagePage';
 // import LandingPage from './_landing/LandingPage';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SigninForm />} />
           <Route path="/sign-up" element={<SignupForm />} />
+          <Route path="/message" element={<MessagePage />} />
           <Route path="*" element={<Navigate to="/sign-in" replace />} />
         </Route>
 

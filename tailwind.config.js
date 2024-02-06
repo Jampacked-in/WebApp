@@ -41,6 +41,7 @@ module.exports = {
         'light-4': '#5C5C7B',
         'swiggy': '#F78C26',
         'zomato': '#F51C41',
+        'light-green': '#D1DDBD'
       },
       screens: {
         'xs': '480px',
