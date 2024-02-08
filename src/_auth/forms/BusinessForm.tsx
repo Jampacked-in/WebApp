@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
+import { Loader } from "@/components/shared/loader"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { useNavigate, useLocation } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { BusinessValidation, SignupValidation } from "@/lib/validation"
-import { Loader } from "@/components/shared/loader"
 import { z } from "zod"
-import { useToast } from "@/components/ui/use-toast"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +25,6 @@ const BusinessForm = () => {
 
     const signupData = location.state as z.infer<typeof SignupValidation>;
     const accountId = uuidv4();
-    const businessId = uuidv4();
     const form = useForm<z.infer<typeof BusinessValidation>>({
         resolver: zodResolver(BusinessValidation),
         defaultValues: {
@@ -38,7 +37,6 @@ const BusinessForm = () => {
     
         const combinedData = {
             accountId,
-            businessId,
             ...signupData,
             ...businessValues
         }

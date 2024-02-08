@@ -9,7 +9,6 @@ export type IContextType = {
 
 export type INewUser = {
     accountId: string;
-    businessId: string;
     businessname: string;
     location: string;
     number: string;
@@ -23,4 +22,9 @@ export type IUser = {
     email: string;
     businessname: string;
     location: string;
+};
+
+export type ISignInUser = {
+    email: string;
+    password: string;
 };

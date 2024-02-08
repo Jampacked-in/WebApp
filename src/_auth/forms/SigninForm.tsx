@@ -46,29 +46,33 @@ const SignInForm = () => {
     // }
 
     const onSubmit = async (values: z.infer<typeof LoginValidation>) => {
-        
-        const session = await signInAccount({
-            email: values.email,
-            password: values.password,
-        });
-
-        if(!session) {
-            return toast({
-                title: 'Unregistered email or incorrect password. Please try again.',
+        try {
+            const session = await signInAccount({
+                email: values.email,
+                password: values.password,
             });
+    
+            if (!session) {
+                return toast({
+                    title: 'Unregistered email or incorrect password. Please try again.',
+                });
+            }
+    
+            const isLoggedIn = await checkAuthUser();
+            if (isLoggedIn) {
+                form.reset();
+                navigate('/');
+            } else {
+                return toast({
+                    title: 'Sign in failed. Please try again later.',
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle error
         }
-        
-        const isLoggedIn = await checkAuthUser();
-
-        if(isLoggedIn){
-            form.reset();
-            navigate('/');
-        } else {
-            return toast({
-                title: 'Sign in failed. Please try again later.'
-            });
-        }
-    }
+    };
+    
 
     return (
         <Form {...form}>
