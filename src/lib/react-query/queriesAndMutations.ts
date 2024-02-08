@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
-import { INewUser } from '@/types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { INewUser, IUser } from '@/types';
 
 const createUserAccount = async (user: INewUser): Promise<any> => {
   const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
@@ -31,10 +31,46 @@ const signInAccount = async (user: { email: string; password: string }): Promise
   return response.json();
 };
 
+const signOutAccount = async (): Promise<any> => {
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
+    method: 'POST',
+  });
+  if (!response.ok) {
+    const errorResponse = await response.json();
+    throw new Error(errorResponse.error || 'Failed to sign out');
+  }
+  return response.json();
+};
+
+const fetchCurrentUser = async (): Promise<IUser> => {
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/current-user`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`An error occurred: ${response.statusText}`);
+  }
+  return response.json();
+};
+
+export const useFetchCurrentUser = () => {
+  return useQuery<IUser, Error>({
+    queryKey: ['currentUser'],
+    queryFn: fetchCurrentUser,
+  });
+};
+
 export const useCreateUserAccount = () => useMutation({
   mutationFn: createUserAccount
 });
 
 export const useSignInAccount = () => useMutation({
   mutationFn: signInAccount
+});
+
+export const useSignOutAccount = () => useMutation({
+  mutationFn: signOutAccount
 });

@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button"
@@ -12,8 +11,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "./loader";
 import { useUserContext } from "@/context/AuthContext";
 import { v4 as uuidv4 } from 'uuid';
-import { saveBusinessToDB } from "@/lib/appwrite/api";
+// import { saveBusinessToDB } from "@/lib/appwrite/api";
 import { toast } from "../ui/use-toast";
+import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 
 const Topbar = () => {
     const { mutate: signOut, isSuccess } = useSignOutAccount();
@@ -38,31 +38,31 @@ const Topbar = () => {
         },
     });
 
-    const onSubmit = async (businessValues: z.infer<typeof BusinessValidation>) => {
-        setIsCreatingBusiness(true);
+    // const onSubmit = async (businessValues: z.infer<typeof BusinessValidation>) => {
+    //     setIsCreatingBusiness(true);
 
-        const businessData = {
-            accountId: accountId,
-            businessId: businessId,
-            businessname: businessValues.businessname,
-            location: businessValues.location,
-        };
+    //     const businessData = {
+    //         accountId: accountId,
+    //         businessId: businessId,
+    //         businessname: businessValues.businessname,
+    //         location: businessValues.location,
+    //     };
 
-        try {
-            const newBusiness = await saveBusinessToDB(businessData);
-            if (newBusiness) {
-                toggleDialog();
-                return toast({
-                    title: 'Business added successfully.',
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            return null;
-        } finally {
-            setIsCreatingBusiness(false);
-        }
-    }
+    //     try {
+    //         const newBusiness = await saveBusinessToDB(businessData);
+    //         if (newBusiness) {
+    //             toggleDialog();
+    //             return toast({
+    //                 title: 'Business added successfully.',
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         return null;
+    //     } finally {
+    //         setIsCreatingBusiness(false);
+    //     }
+    // }
 
     return (
         <section className="topbar">
@@ -79,7 +79,7 @@ const Topbar = () => {
                     </Button>
                 </div>
             </div>
-            {isDialogOpen && (
+            {/* {isDialogOpen && (
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogContent className="sm:max-w-[425px] bg-light-1">
                         <DialogHeader>
@@ -130,7 +130,7 @@ const Topbar = () => {
                         </Form>
                     </DialogContent>
                 </Dialog>
-            )}
+            )} */}
         </section>
     );
 };

@@ -1,11 +1,11 @@
-export type IContextType = {
+export type AuthContextType = {
     user: IUser;
     isLoading: boolean;
-    setUser: React.Dispatch<React.SetStateAction<IUser>>;
     isAuthenticated: boolean;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-    checkAuthUser: () => Promise<boolean>;
-};
+    setUser: (user: IUser) => void;
+    setIsAuthenticated: (isAuthenticated: boolean) => void;
+    checkAuthUser: () => Promise<void>;
+}
 
 export type INewUser = {
     accountId: string;

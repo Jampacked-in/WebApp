@@ -18,7 +18,7 @@ const SignInForm = () => {
     const navigate = useNavigate();
     const {toast} = useToast();
 
-    const {checkAuthUser, isLoading: isUserLoading} = useUserContext();
+    const { isAuthenticated, checkAuthUser, isLoading: isUserLoading} = useUserContext();
     const { mutateAsync: signInAccount} = useSignInAccount();
 
     const form = useForm<z.infer<typeof LoginValidation>>({
@@ -58,8 +58,9 @@ const SignInForm = () => {
                 });
             }
     
-            const isLoggedIn = await checkAuthUser();
-            if (isLoggedIn) {
+            await checkAuthUser();
+
+            if (isAuthenticated) {
                 form.reset();
                 navigate('/');
             } else {

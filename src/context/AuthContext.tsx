@@ -1,9 +1,9 @@
-import { getCurrentUser } from '@/lib/appwrite/api';
-import { IContextType, IUser } from '@/types';
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IUser, AuthContextType } from '@/types';
+import { useFetchCurrentUser } from '@/lib/react-query/queriesAndMutations';
 
-export const INITIAL_USER = {
+export const INITIAL_USER: IUser = {
     id: '',
     email: '',
     number: '',
@@ -11,63 +11,51 @@ export const INITIAL_USER = {
     location: '',
 };
 
-const INITIAL_STATE = {
+const INITIAL_STATE: AuthContextType = {
     user: INITIAL_USER,
     isLoading: false,
     isAuthenticated: false,
     setUser: () => {},
     setIsAuthenticated: () => {},
-    checkAuthUser: async () => false as boolean,
+    checkAuthUser: async () => {},
 };
 
-const AuthContext = createContext<IContextType>(INITIAL_STATE);
+const AuthContext = createContext<AuthContextType>(INITIAL_STATE);
 
-const AuthProvider = ({children} : {children: React.ReactNode}) => {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<IUser>(INITIAL_USER);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const navigate = useNavigate();
-    const checkAuthUser = async () => {
-        setIsLoading(true);
-        try {
-            const currentAccount = await getCurrentUser();
-            if (currentAccount) {
-                setUser(currentAccount);
-                setIsAuthenticated(true);
-                return true;
-            }
-            return false;
-        } catch (error) {
-            console.log(error);
-            return false;
-        } finally {
-            setIsLoading(false);
-        }
-    };
+
+    const { data: currentUser, isLoading: isFetchingCurrentUser, isError } = useFetchCurrentUser();
 
     useEffect(() => {
-        if(
-            localStorage.getItem('cookieFallback')==='[]' || localStorage.getItem('cookieFallback')===null
-        ) navigate('/sign-in');
-        checkAuthUser();
-    }, []);
+        if (currentUser && !isError) {
+            setUser(currentUser);
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+            if (!isFetchingCurrentUser) {
+                navigate('/sign-in');
+            }
+        }
+    }, [currentUser, isError, isFetchingCurrentUser, navigate]);
 
+    const checkAuthUser = async () => {};
+      
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-                setUser,
-                isLoading,
-                isAuthenticated,
-                setIsAuthenticated,
-                checkAuthUser,
-            }}
-        >
+        <AuthContext.Provider value={{
+            user,
+            setUser,
+            isLoading: isFetchingCurrentUser,
+            isAuthenticated,
+            setIsAuthenticated,
+            checkAuthUser: async () => { await checkAuthUser(); }
+        }}>
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export default AuthProvider;
 
