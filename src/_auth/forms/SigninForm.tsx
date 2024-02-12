@@ -18,7 +18,7 @@ const SignInForm = () => {
     const navigate = useNavigate();
     const {toast} = useToast();
 
-    const { isAuthenticated, checkAuthUser, isLoading: isUserLoading} = useUserContext();
+    // const { isAuthenticated, checkAuthUser, isLoading: isUserLoading} = useUserContext();
     const { mutateAsync: signInAccount} = useSignInAccount();
 
     const form = useForm<z.infer<typeof LoginValidation>>({
@@ -57,18 +57,21 @@ const SignInForm = () => {
                     title: 'Unregistered email or incorrect password. Please try again.',
                 });
             }
-    
-            await checkAuthUser();
 
-            if (isAuthenticated) {
-                form.reset();
-                navigate('/');
-            } else {
-                return toast({
-                    title: 'Sign in failed. Please try again later.',
-                });
-            }
+            if(session) navigate('/');
+    
+            // await checkAuthUser();
+
+            // if (isAuthenticated) {
+            //     form.reset();
+            //     navigate('/');
+            // } else {
+            //     return toast({
+            //         title: 'Sign in failed. Please try again later.',
+            //     });
+            // }
         } catch (error) {
+            console.error("error at signin form");
             console.error(error);
             // Handle error
         }
@@ -112,7 +115,7 @@ const SignInForm = () => {
                         )}
                     />
                     <Button type="submit" className="shad-button_primary">
-                        {isUserLoading ? (
+                        {true ? (
                             <div className="flex center gap-2">
                                 <Loader /> Logging into Account...
                             </div>

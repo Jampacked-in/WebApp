@@ -8,16 +8,16 @@ import BusinessForm from './_auth/forms/BusinessForm';
 import SwiggyZomato from './_auth/forms/SwiggyZomato';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
-import { isSignUpComplete } from './_auth/forms/SignupForm';
+// import { isSignUpComplete } from './_auth/forms/SignupForm';
 import MessagePage from './_auth/forms/MessagePage';
 // import LandingPage from './_landing/LandingPage';
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  if (!isSignUpComplete) {
-    return <Navigate to="/sign-in" replace />;
-  }
-  return children;
-};
+// const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+//   if (!isSignUpComplete) {
+//     return <Navigate to="/sign-in" replace />;
+//   }
+//   return children;
+// };
 
 const App = () => {
 
@@ -31,11 +31,13 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SigninForm />} />
           <Route path="/sign-up" element={<SignupForm />} />
+          <Route path="/business-details" element={<BusinessForm />} />
+          <Route path="/swiggy-zomato" element={<SwiggyZomato />} />
           <Route path="/message" element={<MessagePage />} />
-          <Route path="*" element={<Navigate to="/sign-in" replace />} />
+          {/* <Route path="*" element={<Navigate to="/sign-in" replace />} /> */}
         </Route>
 
-        <Route path="/business-details" element={
+        {/* <Route path="/business-details" element={
           <section className="flex flex-1 justify-center items-center flex-col py-10">
             <ProtectedRoute>
               <BusinessForm />
@@ -48,7 +50,7 @@ const App = () => {
               <SwiggyZomato />
             </ProtectedRoute>
           </section>
-        } />
+        } /> */}
 
         {/* Private routes with shared layout */}
         <Route element={<RootLayout />}>

@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { INewUser, IUser } from '@/types';
+import { INewUser, IUser, ISignInUser } from '@/types';
+const REACT_APP_API_URL = 'http://localhost:3000/api/auth';
 
 const createUserAccount = async (user: INewUser): Promise<any> => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
+  const response = await fetch(`${REACT_APP_API_URL}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,14 +17,16 @@ const createUserAccount = async (user: INewUser): Promise<any> => {
   return response.json();
 };
 
-const signInAccount = async (user: { email: string; password: string }): Promise<any> => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+const signInAccount = async (user: ISignInUser): Promise<any> => {
+  console.log("hello from queries")
+  const response = await fetch(`${REACT_APP_API_URL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(user),
   });
+  console.log("hello-after-response")
   if (!response.ok) {
     const errorResponse = await response.json();
     throw new Error(errorResponse.error || 'Failed to sign in');

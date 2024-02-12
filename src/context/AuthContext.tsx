@@ -36,7 +36,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         } else {
             setIsAuthenticated(false);
             if (!isFetchingCurrentUser) {
-                navigate('/sign-in');
+                // navigate('/sign-in');
             }
         }
     }, [currentUser, isError, isFetchingCurrentUser, navigate]);
