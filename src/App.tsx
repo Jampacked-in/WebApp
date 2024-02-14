@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Home } from './_root/pages';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';

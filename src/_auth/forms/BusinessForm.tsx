@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form"
 import { BusinessValidation, SignupValidation } from "@/lib/validation"
 import { z } from "zod"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations"
-import { useUserContext } from "@/context/AuthContext"
 import { v4 as uuidv4 } from 'uuid';
 
 let isBusinessDetailsComplete = false;
@@ -17,7 +16,6 @@ const BusinessForm = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const {toast} = useToast();
-    const {checkAuthUser} = useUserContext();
 
     const { mutateAsync: createUserAccount, isPending : isCreatingUser} = useCreateUserAccount();
     const { mutateAsync: signInAccount,} = useSignInAccount();
@@ -61,9 +59,7 @@ const BusinessForm = () => {
                 });
             }
 
-            const isLoggedIn = await checkAuthUser();
-
-            if(isLoggedIn){
+            if(session){
                 form.reset();
                 isBusinessDetailsComplete = true;
                 navigate('/swiggy-zomato');

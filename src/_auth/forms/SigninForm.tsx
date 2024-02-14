@@ -8,17 +8,12 @@ import { LoginValidation } from "@/lib/validation"
 import { Loader } from "@/components/shared/loader"
 import { z } from "zod"
 import { useToast } from "@/components/ui/use-toast"
-import { useUserContext } from "@/context/AuthContext"
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations"
-// import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-
-// const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 const SignInForm = () => {
     const navigate = useNavigate();
     const {toast} = useToast();
 
-    // const { isAuthenticated, checkAuthUser, isLoading: isUserLoading} = useUserContext();
     const { mutateAsync: signInAccount} = useSignInAccount();
 
     const form = useForm<z.infer<typeof LoginValidation>>({
@@ -28,22 +23,6 @@ const SignInForm = () => {
             password: '',
         },
     })
-
-    // function handleGoogleLogin(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
-    //     if ('profileObj' in response) {
-    //         console.log("Login Success: currentUser:", response.profileObj);
-    //     } else {
-    //         console.log("Offline access token:", response);
-    //     }
-    // }
-
-    // function handleGoogleFailure(response: any) {
-    //     console.error("Login Failed:", response);
-    // }
-
-    // function handleMetaLogin() {
-    //     console.log('meta login')
-    // }
 
     const onSubmit = async (values: z.infer<typeof LoginValidation>) => {
         try {
@@ -57,23 +36,14 @@ const SignInForm = () => {
                     title: 'Unregistered email or incorrect password. Please try again.',
                 });
             }
-
-            if(session) navigate('/');
+            else{
+                form.reset();
+                navigate('/');
+            }
     
-            // await checkAuthUser();
-
-            // if (isAuthenticated) {
-            //     form.reset();
-            //     navigate('/');
-            // } else {
-            //     return toast({
-            //         title: 'Sign in failed. Please try again later.',
-            //     });
-            // }
         } catch (error) {
             console.error("error at signin form");
             console.error(error);
-            // Handle error
         }
     };
     
