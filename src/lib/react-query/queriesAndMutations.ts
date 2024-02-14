@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { INewUser, IUser, ISignInUser } from '@/types';
 
